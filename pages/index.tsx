@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { CSVAdd } from '../components/CSVAdd'
 import { Chart } from '../components/Chart'
 import { Row } from '../types'
+import { format } from 'date-fns'
 
 export default function Home() {
   const [rows, setRows] = React.useState<Array<Row>>([])
@@ -25,7 +26,7 @@ export default function Home() {
           <tbody>
             {rows.map((r) => (
               <tr>
-                <td>{r[0].toLocaleString()}</td>
+                <td>{format(r[0], 'P')}</td>
                 <td>{r[1]}</td>
                 <td>{r[2]}</td>
                 <td>{r[3]}</td>

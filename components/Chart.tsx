@@ -1,31 +1,43 @@
 import React from 'react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
-import { format, parse } from 'date-fns'
-import groupBy from 'lodash/groupBy'
+import { format } from 'date-fns'
+import round from 'lodash/round'
 import { Row } from '../types'
 
 type Props = {
   data: Array<Row>
 }
 
+type ChartPoint = {
+  date: string
+  net: number
+  income: number
+  expenses: number
+}
+
 export const Chart = ({ data }: Props) => {
   const groupedData = data.reduce((memo, curr) => {
-    const key = format(curr[0], 'yyyy-MM')
-    const existing = memo.get(key)
-    memo.set(key, existing ? existing + curr[3] : curr[3])
-    return memo
-  }, new Map())
+    const date = format(curr[0], 'yyyy-MM')
+    const amount = curr[3]
+    const bucket = memo.get(date) || { date, net: 0, income: 0, expenses: 0 }
+    bucket.net += amount
+    if (amount < 0) {
+      bucket.expenses += amount
+    } else {
+      bucket.income += amount
+    }
 
-  const aggData = []
-  for (let [key, value] of groupedData) {
-    aggData.push({ x: key, y: Math.floor(value) })
-  }
+    memo.set(date, bucket)
+    return memo
+  }, new Map<string, ChartPoint>())
+
+  const chartData = [...groupedData.values()]
 
   return (
     <BarChart
       width={500}
       height={300}
-      data={aggData}
+      data={chartData}
       margin={{
         top: 5,
         right: 30,
@@ -34,11 +46,19 @@ export const Chart = ({ data }: Props) => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="x" />
+      <XAxis dataKey="date" />
       <YAxis />
-      <Tooltip />
+      <Tooltip
+        formatter={(value, name, props) => {
+          if (typeof value === 'number') {
+            value = round(value)
+          }
+          return [value, name]
+        }}
+      />
       <Legend />
-      <Bar dataKey="y" name="Amount" fill="var(--color)" />
+      <Bar dataKey="expenses" name="Expenses" fill="var(--color)" />
+      {/* <Bar dataKey="income" name="Income" fill="var(--color)" /> */}
     </BarChart>
   )
 }
