@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react'
+import { Row } from '../types'
 
-export function CSVAdd({ onChange }: { onChange: (rows: Array<Array<any>>) => void }) {
+export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const reader = new FileReader()
     reader.onload = function (ev: ProgressEvent<FileReader>) {
@@ -8,7 +9,13 @@ export function CSVAdd({ onChange }: { onChange: (rows: Array<Array<any>>) => vo
       if (typeof result !== 'string') {
         throw new Error('CSV did not produce string')
       }
-      const rows = result.split('\n').map((r) => r.split(','))
+      const rows = result
+        .trim()
+        .split('\n')
+        .map((r) => r.split(','))
+        .map((r) => [new Date(r[0]), r[2], r[3], parseFloat(r[5])])
+        // Remove headers
+        .slice(1)
       onChange(rows)
     }
     reader.readAsText(event.target.files[0])
