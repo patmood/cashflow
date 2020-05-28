@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { CSVAdd } from '../components/CSVAdd'
+import { Chart } from '../components/Chart'
 
 export default function Home() {
   const [rows, setRows] = React.useState([[]])
@@ -18,6 +19,7 @@ export default function Home() {
       <main>
         <h1>Welcome</h1>
         <CSVAdd onChange={handleCSVChange} />
+        {rows.length > 0 && <Chart data={rows} />}
         <table>
           <tbody>
             {rows.map((r) => (
