@@ -7,10 +7,10 @@ export function TransactionTable({ rows }: { rows: Array<Row> }) {
       <tbody>
         {rows.map((r) => (
           <tr>
-            <td>{format(r[0], 'P')}</td>
-            <td>{r[1]}</td>
-            <td>{r[2]}</td>
-            <td>{r[3]}</td>
+            <td>{format(r.date, 'P')}</td>
+            <td>{r.description}</td>
+            <td>{r.category}</td>
+            <td>{r.amount}</td>
           </tr>
         ))}
       </tbody>

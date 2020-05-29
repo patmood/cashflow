@@ -17,8 +17,8 @@ type ChartPoint = {
 
 export const Chart = ({ data }: Props) => {
   const groupedData = data.reduce((memo, curr) => {
-    const date = format(curr[0], 'yyyy-MM')
-    const amount = curr[3]
+    const date = format(curr.date, 'yyyy-MM')
+    const amount = curr.amount
     const bucket = memo.get(date) || { date, net: 0, income: 0, expenses: 0 }
     bucket.net += amount
     if (amount < 0) {
@@ -57,8 +57,8 @@ export const Chart = ({ data }: Props) => {
         }}
       />
       <Legend />
-      <Bar dataKey="expenses" name="Expenses" fill="var(--color)" />
-      {/* <Bar dataKey="income" name="Income" fill="var(--color)" /> */}
+      <Bar dataKey="income" name="Income" fill="var(--color-secondary)" stackId="a" />
+      <Bar dataKey="expenses" name="Expenses" fill="var(--color)" stackId="a" />
     </BarChart>
   )
 }

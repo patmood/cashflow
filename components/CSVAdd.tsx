@@ -13,7 +13,12 @@ export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
         .trim()
         .split('\n')
         .map((r) => r.split(','))
-        .map((r) => [new Date(r[0]), r[2], r[3], parseFloat(r[5])])
+        .map((r) => ({
+          date: new Date(r[0]),
+          description: r[2],
+          category: r[3],
+          amount: parseFloat(r[5]),
+        }))
         // Remove headers
         .slice(1)
       onChange(rows)
