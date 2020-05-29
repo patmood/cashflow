@@ -4,6 +4,8 @@ export type Row = {
   description: string
   category: string
   amount: number
+  internal?: boolean
+  oneTime?: boolean
 }
 
 export enum TXFilter {

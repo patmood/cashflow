@@ -63,7 +63,7 @@ export default function Home() {
         <TransactionFilter filter={filter} setFilter={setFilter} />
         <Stats monthlyData={monthlyData} />
         {monthlyData && <Chart data={monthlyData} />}
-        <TransactionTable rows={filteredRows} />
+        <TransactionTable rows={rows} filteredRows={filteredRows} setRows={setRows} />
       </main>
     </div>
   )
