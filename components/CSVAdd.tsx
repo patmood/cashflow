@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import { Row } from '../types'
+import { v4 as uuid } from 'uuid'
 
 export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -14,6 +15,7 @@ export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
         .split('\n')
         .map((r) => r.split(','))
         .map((r) => ({
+          id: uuid(),
           date: new Date(r[0]),
           description: r[2],
           category: r[3],

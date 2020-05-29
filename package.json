@@ -14,7 +14,8 @@
     "next": "9.4.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.5",

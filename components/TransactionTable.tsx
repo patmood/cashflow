@@ -6,7 +6,7 @@ export function TransactionTable({ rows }: { rows: Array<Row> }) {
     <table>
       <tbody>
         {rows.map((r) => (
-          <tr>
+          <tr key={r.id}>
             <td>{format(r.date, 'P')}</td>
             <td>{r.description}</td>
             <td>{r.category}</td>

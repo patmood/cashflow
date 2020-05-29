@@ -1,4 +1,5 @@
 export type Row = {
+  id: string
   date: Date
   description: string
   category: string
@@ -6,7 +7,7 @@ export type Row = {
 }
 
 export enum TXFilter {
-  NONE = '',
+  NONE = 'None',
   INCOME = 'Income',
   EXPENSES = 'Expenses',
 }

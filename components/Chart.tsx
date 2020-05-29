@@ -1,5 +1,5 @@
 import React from 'react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { format } from 'date-fns'
 import round from 'lodash/round'
 import { Row } from '../types'
@@ -59,6 +59,7 @@ export const Chart = ({ data }: Props) => {
       <Legend />
       <Bar dataKey="income" name="Income" fill="var(--color-secondary)" stackId="a" />
       <Bar dataKey="expenses" name="Expenses" fill="var(--color)" stackId="a" />
+      <Line dataKey="net" type="monotone" stroke="#ff7300" />
     </BarChart>
   )
 }

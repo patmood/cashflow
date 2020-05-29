@@ -16,7 +16,7 @@ export default function Home() {
         switch (filter) {
           case TXFilter.INCOME:
             return r.amount > 0
-          case TXFilter.INCOME:
+          case TXFilter.EXPENSES:
             return r.amount < 0
           default:
             return true
