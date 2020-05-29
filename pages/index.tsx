@@ -1,10 +1,13 @@
 import React from 'react'
 import Head from 'next/head'
+import { formatISO, startOfMonth } from 'date-fns'
+
 import { CSVAdd } from '../components/CSVAdd'
 import { Chart } from '../components/Chart'
-import { Row, TXFilter } from '../types'
+import { Row, TXFilter, MonthSummary } from '../types'
 import { TransactionTable } from '../components/TransactionTable'
 import { TransactionFilter } from '../components/TransactionFilter'
+import { Stats } from '../components/Stats'
 
 export default function Home() {
   const [rows, setRows] = React.useState<Array<Row>>([])
@@ -25,7 +28,24 @@ export default function Home() {
     [rows, filter]
   )
 
-  console.log({ filter, filteredRows })
+  const monthlyData = React.useMemo(
+    () =>
+      filteredRows.reduce((memo, curr) => {
+        const month = formatISO(startOfMonth(curr.date))
+        const amount = curr.amount
+        const bucket = memo[month] || { month, net: 0, income: 0, expenses: 0 }
+        bucket.net += amount
+        if (amount < 0) {
+          bucket.expenses += amount
+        } else {
+          bucket.income += amount
+        }
+
+        memo[month] = bucket
+        return memo
+      }, {} as Record<string, MonthSummary>),
+    [filteredRows]
+  )
 
   return (
     <div className="container">
@@ -39,7 +59,8 @@ export default function Home() {
         <h1>Welcome</h1>
         <CSVAdd onChange={setRows} />
         <TransactionFilter filter={filter} setFilter={setFilter} />
-        {rows.length > 0 && <Chart data={filteredRows} />}
+        <Stats monthlyData={monthlyData} />
+        {monthlyData && <Chart data={monthlyData} />}
         <TransactionTable rows={filteredRows} />
       </main>
     </div>

@@ -11,3 +11,10 @@ export enum TXFilter {
   INCOME = 'Income',
   EXPENSES = 'Expenses',
 }
+
+export type MonthSummary = {
+  month: string
+  net: number
+  income: number
+  expenses: number
+}

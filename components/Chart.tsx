@@ -1,37 +1,13 @@
 import React from 'react'
-import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
-import { format } from 'date-fns'
-import round from 'lodash/round'
-import { Row } from '../types'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { MonthSummary } from '../types'
 
 type Props = {
-  data: Array<Row>
-}
-
-type ChartPoint = {
-  date: string
-  net: number
-  income: number
-  expenses: number
+  data: Record<string, MonthSummary>
 }
 
 export const Chart = ({ data }: Props) => {
-  const groupedData = data.reduce((memo, curr) => {
-    const date = format(curr.date, 'yyyy-MM')
-    const amount = curr.amount
-    const bucket = memo.get(date) || { date, net: 0, income: 0, expenses: 0 }
-    bucket.net += amount
-    if (amount < 0) {
-      bucket.expenses += amount
-    } else {
-      bucket.income += amount
-    }
-
-    memo.set(date, bucket)
-    return memo
-  }, new Map<string, ChartPoint>())
-
-  const chartData = [...groupedData.values()]
+  const chartData = Object.values(data)
 
   return (
     <BarChart
@@ -51,7 +27,7 @@ export const Chart = ({ data }: Props) => {
       <Tooltip
         formatter={(value, name, props) => {
           if (typeof value === 'number') {
-            value = round(value)
+            value = Math.round(value)
           }
           return [value, name]
         }}
@@ -59,7 +35,6 @@ export const Chart = ({ data }: Props) => {
       <Legend />
       <Bar dataKey="income" name="Income" fill="var(--color-secondary)" stackId="a" />
       <Bar dataKey="expenses" name="Expenses" fill="var(--color)" stackId="a" />
-      <Line dataKey="net" type="monotone" stroke="#ff7300" />
     </BarChart>
   )
 }
