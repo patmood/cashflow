@@ -11,18 +11,25 @@ export function TransactionTable({
   filteredRows: Array<Row>
   setRows: (rows: Array<Row>) => void
 }) {
-  function handleInternalTransfer(id: string, checked: boolean) {
-    const index = rows.findIndex((r) => r.id === id)
-    if (index === -1) {
-      throw new Error('Index not found when updating internal transfer')
-    }
+  function handleUpdate(row: Row, update: { internal?: boolean; oneOff?: boolean }) {
+    const index = rows.findIndex((r) => r.id === row.id)
     const newRows = [...rows]
-    newRows[index].internal = checked
+    newRows[index] = { ...newRows[index], ...update }
     setRows(newRows)
   }
 
   return (
     <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Internal Transfer</th>
+          <th>One Off</th>
+        </tr>
+      </thead>
       <tbody>
         {filteredRows.map((r) => (
           <tr key={r.id}>
@@ -33,9 +40,17 @@ export function TransactionTable({
             <td>
               <input
                 type="checkbox"
-                checked={r.internal}
-                onChange={(event) => handleInternalTransfer(r.id, event.target.checked)}
+                checked={!!r.internal}
+                onChange={(event) => handleUpdate(r, { internal: event.target.checked })}
                 name="internal-transfer"
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                checked={!!r.oneOff}
+                onChange={(event) => handleUpdate(r, { oneOff: event.target.checked })}
+                name="one-off"
               />
             </td>
           </tr>

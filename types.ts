@@ -5,7 +5,7 @@ export type Row = {
   category: string
   amount: number
   internal?: boolean
-  oneTime?: boolean
+  oneOff?: boolean
 }
 
 export enum TXFilter {
