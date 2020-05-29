@@ -2,12 +2,13 @@ import React from 'react'
 import Head from 'next/head'
 import { formatISO, startOfMonth } from 'date-fns'
 
-import { CSVAdd } from '../components/CSVAdd'
+import { AddCSV } from '../components/AddCSV'
 import { Chart } from '../components/Chart'
 import { Row, TXFilter, MonthSummary } from '../types'
 import { TransactionTable } from '../components/TransactionTable'
 import { TransactionFilter } from '../components/TransactionFilter'
 import { Stats } from '../components/Stats'
+import { AddDemoData } from '../components/AddDemoData'
 
 export default function Home() {
   const [rows, setRows] = React.useState<Array<Row>>([])
@@ -57,7 +58,8 @@ export default function Home() {
 
       <main>
         <h1>Welcome</h1>
-        <CSVAdd onChange={setRows} />
+        <AddCSV onChange={setRows} />
+        <AddDemoData onChange={setRows} />
         <TransactionFilter filter={filter} setFilter={setFilter} />
         <Stats monthlyData={monthlyData} />
         {monthlyData && <Chart data={monthlyData} />}

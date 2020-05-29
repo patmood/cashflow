@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react'
 import { Row } from '../types'
 import { v4 as uuid } from 'uuid'
 
-export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
+export function AddCSV({ onChange }: { onChange: (rows: Array<Row>) => void }) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const reader = new FileReader()
     reader.onload = function (ev: ProgressEvent<FileReader>) {
@@ -27,10 +27,11 @@ export function CSVAdd({ onChange }: { onChange: (rows: Array<Row>) => void }) {
     }
     reader.readAsText(event.target.files[0])
   }
+
   return (
     <label>
       <div>Add CSV</div>
-      <input type="file" onChange={handleChange} />
+      <input type="file" onChange={handleChange} accept=".csv" />
     </label>
   )
 }
