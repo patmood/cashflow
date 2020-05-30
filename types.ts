@@ -19,4 +19,6 @@ export type MonthSummary = {
   net: number
   income: number
   expenses: number
+  oneOffExpenses: number
+  oneOffIncome: number
 }
