@@ -7,5 +7,9 @@ export function Stats({ monthlyData }: { monthlyData: Record<string, MonthSummar
   const numMonths = differenceInMonths(parseISO(months[months.length - 1]), parseISO(months[0]))
   const sum = Object.values(monthlyData).reduce((memo, curr) => memo + curr.net, 0)
   const average = Math.round(sum / numMonths)
-  return <div>Monthly Average: {average}</div>
+  return (
+    <div>
+      Monthly Average: <span style={{ color: average >= 0 ? 'green' : 'red' }}>{average}</span>
+    </div>
+  )
 }
