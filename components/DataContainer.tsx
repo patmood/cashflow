@@ -8,6 +8,7 @@ import { TransactionTable } from './TransactionTable'
 import { TransactionFilter } from './TransactionFilter'
 import { Stats } from './Stats'
 import { AddDemoData } from './AddDemoData'
+import { Modal } from './Modal'
 
 export function DataContainer() {
   const [rows, setRows] = React.useState<Array<Row>>([])
@@ -63,8 +64,6 @@ export function DataContainer() {
       }, {} as Record<string, MonthSummary>),
     [filteredRows]
   )
-
-  console.log({ monthlyData })
 
   return (
     <main>

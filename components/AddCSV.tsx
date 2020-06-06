@@ -1,37 +1,29 @@
+import React from 'react'
 import { ChangeEvent } from 'react'
+import { Modal } from './Modal'
+import { ParseCSV } from './ParseCSV'
 import { Row } from '../types'
-import { v4 as uuid } from 'uuid'
 
 export function AddCSV({ onChange }: { onChange: (rows: Array<Row>) => void }) {
+  const [file, setFile] = React.useState<File | null>(null)
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const reader = new FileReader()
-    reader.onload = function (ev: ProgressEvent<FileReader>) {
-      const { result } = ev.target
-      if (typeof result !== 'string') {
-        throw new Error('CSV did not produce string')
-      }
-      const rows = result
-        .trim()
-        .split('\n')
-        .map((r) => r.split(','))
-        .map((r) => ({
-          id: uuid(),
-          date: new Date(r[0]),
-          description: r[2],
-          category: r[3],
-          amount: parseFloat(r[5]),
-        }))
-        // Remove headers
-        .slice(1)
-      onChange(rows)
-    }
-    reader.readAsText(event.target.files[0])
+    setFile(event.target.files[0])
+  }
+
+  function handleParsedResult(rows: Array<Row>) {
+    onChange(rows)
+    setFile(null)
   }
 
   return (
     <label>
-      <div>Add CSV</div>
+      <div>Import CSV</div>
       <input type="file" onChange={handleChange} accept=".csv" />
+      {file && (
+        <Modal title="Import CSV" onClose={() => setFile(null)}>
+          <ParseCSV file={file} setResult={handleParsedResult} />
+        </Modal>
+      )}
     </label>
   )
 }
