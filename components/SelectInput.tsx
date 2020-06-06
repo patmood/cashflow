@@ -10,10 +10,10 @@ export function SelectInput({
   value: string | number
 }) {
   return (
-    <select onChange={(e) => handleChange(e.target.value)}>
-      <option value="" selected={!value}></option>
+    <select onChange={(e) => handleChange(e.target.value)} defaultValue={value}>
+      <option value=""></option>
       {options.map((opt, i) => (
-        <option key={i} value={opt.value} selected={opt.value === value}>
+        <option key={i} value={opt.value}>
           {opt.label}
         </option>
       ))}

@@ -57,8 +57,6 @@ export function ParseCSV({
     const amountIndex = secondRow.findIndex((cell, i) => i !== dateIndex && AMOUNT_REG.test(cell))
     newColumnIndexes[amountIndex] = 'Amount'
 
-    console.log({ dateIndex, amountIndex })
-
     setColumnIndexes(newColumnIndexes)
   }, [rawRows])
 
@@ -93,30 +91,32 @@ export function ParseCSV({
       <h3>Select column headers:</h3>
       <table>
         <thead>
-          {rawRows[0] &&
-            rawRows[0].map((_, i) => {
-              const selectOptions = HEADERS_CHOICES.map((key) => ({
-                label: key,
-                value: key,
-              }))
-              return (
-                <th key={i}>
-                  <SelectInput
-                    options={selectOptions}
-                    handleChange={(val: HeaderLabels) => {
-                      const newColumnIndexes = [...columnIndexes]
-                      const existingIndex = newColumnIndexes.indexOf(val)
-                      if (existingIndex !== -1 && existingIndex !== i) {
-                        delete newColumnIndexes[existingIndex]
-                      }
-                      newColumnIndexes[i] = val
-                      setColumnIndexes(newColumnIndexes)
-                    }}
-                    value={columnIndexes[i]}
-                  />
-                </th>
-              )
-            })}
+          <tr>
+            {rawRows[0] &&
+              rawRows[0].map((_, i) => {
+                const selectOptions = HEADERS_CHOICES.map((key) => ({
+                  label: key,
+                  value: key,
+                }))
+                return (
+                  <th key={i}>
+                    <SelectInput
+                      options={selectOptions}
+                      handleChange={(val: HeaderLabels) => {
+                        const newColumnIndexes = [...columnIndexes]
+                        const existingIndex = newColumnIndexes.indexOf(val)
+                        if (existingIndex !== -1 && existingIndex !== i) {
+                          delete newColumnIndexes[existingIndex]
+                        }
+                        newColumnIndexes[i] = val
+                        setColumnIndexes(newColumnIndexes)
+                      }}
+                      value={columnIndexes[i]}
+                    />
+                  </th>
+                )
+              })}
+          </tr>
         </thead>
         <tbody>
           {rawRows.slice(0, 7).map((row, i) => (

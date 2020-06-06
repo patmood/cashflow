@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const Chart = ({ data }: Props) => {
-  const chartData = Object.values(data)
+  const chartData = Object.values(data).sort((a, b) => a - b)
 
   // TODO: add x ticks to see whats going on
 
