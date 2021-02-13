@@ -15,6 +15,7 @@ export function ParseCSV({
   file: File
   setResult: (rows: Array<Row>) => void
 }) {
+  const [accountName, setAccountName] = React.useState('')
   const [rawRows, setRawRows] = React.useState<Array<Array<string>>>([])
   const [hasHeaders, setHasHeaders] = React.useState(false)
   const [columnIndexes, setColumnIndexes] = React.useState<Array<HeaderLabels>>([])
@@ -67,6 +68,7 @@ export function ParseCSV({
     const amountIndex = columnIndexes.indexOf('Amount')
 
     let rows = rawRows.map((r) => ({
+      accountName,
       id: uuid(),
       date: new Date(r[dateIndex]),
       description: r[descIndex],
@@ -83,6 +85,7 @@ export function ParseCSV({
 
   return (
     <div>
+      <input type="text" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
       <div>
         First row is headers?{' '}
         <input type="checkbox" checked={hasHeaders} onChange={() => setHasHeaders(!hasHeaders)} />

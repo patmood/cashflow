@@ -22,6 +22,7 @@ export function TransactionTable({
     <table>
       <thead>
         <tr>
+          <th>Account</th>
           <th>Date</th>
           <th>Description</th>
           <th>Category</th>
@@ -33,6 +34,7 @@ export function TransactionTable({
       <tbody>
         {filteredRows.map((r) => (
           <tr key={r.id}>
+            <td>{r.accountName}</td>
             <td>{format(r.date, 'P')}</td>
             <td>{r.description}</td>
             <td>{r.category}</td>

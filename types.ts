@@ -1,4 +1,5 @@
 export type Row = {
+  accountName: string
   id: string
   date: Date
   description: string
